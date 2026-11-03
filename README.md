@@ -18,10 +18,10 @@ The two plugins work independently. Install either one, or both.
 
 ## Install
 
-In Claude Code, add this repository as a marketplace, then install the plugins you want. `<owner>` is the GitHub account that hosts this repository.
+In Claude Code, add this repository as a marketplace, then install the plugins you want.
 
 ```text
-/plugin marketplace add <owner>/session-kit
+/plugin marketplace add ali-shirzadg/session-kit
 /plugin install session-board@session-kit
 /plugin install idle-compact@session-kit
 ```
@@ -29,7 +29,7 @@ In Claude Code, add this repository as a marketplace, then install the plugins y
 On Claude Code 2.1.275 or newer, one line per plugin also works:
 
 ```text
-/plugin install session-board --marketplace <owner>/session-kit
+/plugin install session-board --marketplace ali-shirzadg/session-kit
 ```
 
 Then type `/board` to open the pane, and `/session-kit` (or ask "set up the session kit") to have Claude fill the board for your project.

@@ -10,3 +10,4 @@ First public release.
 - `idle-compact` plugin: board update and then compaction after 15 idle minutes, the self-compacting `idle-compact:worker` subagent type, and the brief in place of waking a large idle subagent.
 - `tools/usage-watch.sh` works with both BSD (macOS) and GNU (Linux) `date`.
 - `install.sh --statusline` is now opt-in and never edits settings.
+- Both plugins carry an icon and link to this repository.
