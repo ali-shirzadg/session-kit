@@ -1,0 +1,24 @@
+{
+  "name": "session-kit",
+  "owner": { "name": "alish" },
+  "metadata": {
+    "description": "Long Claude Code sessions with many subagents, kept under control: a live board pane, Inbox capture, idle compaction and self-compacting subagents.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "session-board",
+      "source": "./session-board",
+      "description": "A live board pane beside the chat, with Inbox capture of asks typed mid-turn and the session-kit skill.",
+      "version": "0.1.0",
+      "license": "MIT"
+    },
+    {
+      "name": "idle-compact",
+      "source": "./idle-compact",
+      "description": "After 15 idle minutes, a board update and then compaction; self-compacting worker subagents.",
+      "version": "0.1.0",
+      "license": "MIT"
+    }
+  ]
+}

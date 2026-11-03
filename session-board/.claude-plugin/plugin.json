@@ -1,0 +1,9 @@
+{
+  "name": "session-board",
+  "version": "0.1.0",
+  "description": "A live pane beside the chat with the session's subjects: what runs now, what is next, what waits on you and what is coming up. Captures asks typed mid-turn into an Inbox. Read from a board file in the plugin data folder.",
+  "author": { "name": "alish" },
+  "license": "MIT",
+  "keywords": ["mod", "pane", "board", "subagents", "session"],
+  "types": "./types/index.d.ts"
+}

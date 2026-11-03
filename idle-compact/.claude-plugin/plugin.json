@@ -1,0 +1,9 @@
+{
+  "name": "idle-compact",
+  "version": "0.1.0",
+  "description": "Once the main conversation has sat idle for 15 minutes and is large enough, asks for a session board update, then compacts it. Runs general-purpose subagents as a self-compacting worker type and keeps large idle subagents from being woken.",
+  "author": { "name": "alish" },
+  "license": "MIT",
+  "keywords": ["mod", "compaction", "idle", "subagents", "context"],
+  "types": "./types/index.d.ts"
+}

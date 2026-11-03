@@ -1,0 +1,12 @@
+{
+  "updated": "",
+  "sections": [
+    { "title": "Inbox (your asks, captured)", "items": [] },
+    { "title": "Next steps (what to do now)", "items": [] },
+    { "title": "Running now", "kind": "running", "items": [] },
+    { "title": "Your actions", "items": [] },
+    { "title": "Monitor", "kind": "monitor", "items": [] },
+    { "title": "Parked / later", "items": [] },
+    { "title": "Done today", "items": [] }
+  ]
+}

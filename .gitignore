@@ -1,0 +1,8 @@
+# The board lives in the plugin data folder; an old in-plugin copy is never tracked.
+session-board/data/board.json
+# Written by the engine beside a mod it loads for authoring.
+.claude-plugin/types/
+*/.claude-plugin/types/
+.DS_Store
+*.log
+__pycache__/
