@@ -89,7 +89,7 @@ function world(on: On, percent: number) {
   return seen
 }
 
-test('fifteen idle minutes after a main turn compact once', async ($, on) => {
+test('the idle time after a main turn compacts once', async ($, on) => {
   const clock = mock.clock(on)
   const seen = world(on, 35)
   await $.turn.complete(DONE)
@@ -99,6 +99,7 @@ test('fifteen idle minutes after a main turn compact once', async ($, on) => {
   // First the board is updated, then the conversation is compacted.
   expect(seen.prompts).toHaveLength(1)
   expect(seen.prompts[0]).toMatch(/session board/)
+  expect(seen.prompts[0]).toMatch(/idle for 45 minutes/)
   expect(seen.prompts[0]).toContain('/home/someone/.claude/plugins/data/session-board-session-kit/board.json')
   expect(seen.compactions).toBe(0)
   await boardTurn($, clock)

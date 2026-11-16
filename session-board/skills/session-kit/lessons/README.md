@@ -9,7 +9,7 @@ Lessons from long Claude Code sessions with many subagents. Each file is one les
 | [session-board-source-of-truth](session-board-source-of-truth.md) | Board updated on every status change; topical sections; short lines |
 | [session-panel-means-mod](session-panel-means-mod.md) | "A panel for the session" means a mod pane beside the chat, not a web page |
 | [inbox-auto-answer](inbox-auto-answer.md) | After each task, handle the board Inbox unprompted |
-| [idle-tidy-compaction](idle-tidy-compaction.md) | 15 min idle: update the board, compact if ≥ 10 % |
+| [idle-tidy-compaction](idle-tidy-compaction.md) | 45 min idle: update the board, compact if ≥ 10 % |
 | [watch-five-hour-limit](watch-five-hour-limit.md) | Usage watch at 65 %; the cleanup sequence at the mark |
 | [resume-agents-compact](resume-agents-compact.md) | Never mass-resume big agents; fresh agent from a short handoff |
 | [clear-idle-subagents](clear-idle-subagents.md) | Stop agents once their result is read |

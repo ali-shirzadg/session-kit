@@ -3,7 +3,7 @@
 Two Claude Code plugins for long sessions with many subagents:
 
 - **session-board** puts a live board in a pane beside the chat. The board shows what is running now, what is next, what waits on you and what is coming up. While Claude is busy with a turn, anything you type is distilled into one line in the board's Inbox, so an ask sent mid-turn is not lost. The plugin also ships the `session-kit` skill, which fills the board for your project and holds the working rules and lessons below.
-- **idle-compact** keeps the conversation small. After 15 idle minutes it asks Claude to bring the board up to date, then compacts the conversation. General-purpose subagents run as a worker type that compacts itself at 200,000 tokens. A large subagent that has gone idle is not woken by a message, which would make it re-read its whole transcript; Claude gets a brief to start a fresh agent from instead.
+- **idle-compact** keeps the conversation small. After 45 idle minutes it asks Claude to bring the board up to date, then compacts the conversation. General-purpose subagents run as a worker type that compacts itself at 200,000 tokens. A large subagent that has gone idle is not woken by a message, which would make it re-read its whole transcript; Claude gets a brief to start a fresh agent from instead.
 
 There is also an optional status line, a copied script, that shows context and plan usage. A small watcher reads it and warns before the 5-hour usage limit runs out.
 
@@ -76,7 +76,7 @@ Neither plugin opens a network connection of its own. Everything below runs on y
 
 **session-board**
 
-- **Model call (Inbox capture).** A message you type while a turn is already running qualifies when it is at least 12 characters, not a slash command and not a bare "ok" or "continue". For each one, its first 4,000 characters go to Claude through Claude Code (model `sonnet`, low effort, 20-second timeout), with instructions to rewrite it as one to-do line. The answer is written to the board. Each capture uses some of your plan usage. Messages typed while Claude is idle are not sent.
+- **Model call (Inbox capture).** A message you type while a turn is already running qualifies when it is at least 12 characters, not a slash command and not a bare "ok" or "continue". For each one, its first 4,000 characters go to Claude through Claude Code (model `haiku`, low effort, 20-second timeout), with instructions to rewrite it as one to-do line. The answer is written to the board. Each capture uses some of your plan usage. Messages typed while Claude is idle are not sent.
 - **Process (`/board check`).** Only when you type `/board check`, the plugin runs the board's `"check"` field with `bash -c`, with a 2-minute timeout. Its output is written to the Monitor section. The command is whatever you or Claude put in the board file, so keep it read-only. With no `"check"` field, nothing runs.
 - **Files.**
   - Reads and writes the board file named above.
@@ -86,7 +86,7 @@ Neither plugin opens a network connection of its own. Everything below runs on y
 
 **idle-compact**
 
-- **Prompt and compaction.** After 15 minutes with no prompt, no turn and no background agent at work, and with context at 10 % or more, it sends one prompt into your session asking for a board update. That turn uses plan usage like any other. It then asks Claude Code to compact the conversation.
+- **Prompt and compaction.** After 45 minutes with no prompt, no turn and no background agent at work, and with context at 10 % or more, it sends one prompt into your session asking for a board update. That turn uses plan usage like any other. It then asks Claude Code to compact the conversation.
 - **Subagents.**
   - It registers the `idle-compact:worker` agent type and runs plain general-purpose subagents as that type.
   - Before a `SendMessage` to an idle subagent, it reads that subagent's transcript locally to estimate its size; no model call is made.

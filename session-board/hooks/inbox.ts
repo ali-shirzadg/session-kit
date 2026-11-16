@@ -35,7 +35,7 @@ export function addToInbox(boardText: string, line: string, note: string): strin
 export async function capture($: EngineInterface, text: string, path: string): Promise<void> {
   try {
     const r = await $.model.complete({
-      model: 'sonnet',
+      model: 'haiku',
       system: RULES,
       prompt: text.slice(0, 4000),
       effort: 'low',

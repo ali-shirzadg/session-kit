@@ -3,7 +3,7 @@ import type { EngineInterface, Register, Timer } from 'claude-code'
 
 import type { IdleCompactSettings } from '../types'
 
-export const IDLE_MS = 15 * 60_000
+export const IDLE_MS = 45 * 60_000
 // Background agents still at work mean the session is not idle yet: look again.
 export const RETRY_MS = 5 * 60_000
 // Below this fill a compaction saves little and still loses detail.
@@ -28,7 +28,7 @@ function boardPrompt(path: string | undefined): string {
   const where = path === undefined ? 'the session-board file' : `the session-board file, ${path}`
 
   return [
-    'The session has been idle for 15 minutes and is compacted right after this turn.',
+    `The session has been idle for ${minutes(IDLE_MS)} and is compacted right after this turn.`,
     `Before that, update the session board (${where}) so every subject stands as it does now: states, short lines, notes, and the current local time as YYYY-MM-DD HH:MM in "updated". Re-read it first and keep it valid JSON.`,
     'Do nothing else: no agents, no other files, no questions. Answer in one line.',
   ].join('\n\n')
@@ -114,6 +114,8 @@ function minutes(ms: number): string {
   return whole >= 120 ? `${String(Math.round(whole / 60))} hours` : `${String(whole)} minutes`
 }
 
+const IDLED = `idle for ${minutes(IDLE_MS)}`
+
 function disarm(): void {
   pending?.cancel()
   pending = undefined
@@ -148,7 +150,7 @@ async function compactIfIdle($: EngineInterface): Promise<void> {
     if (percent === undefined || percent < MIN_PERCENT) {
       report(
         $,
-        `idle for 15 minutes, context at ${String(percent ?? 0)}% (under ${String(MIN_PERCENT)}%), left as it is.`,
+        `${IDLED}, context at ${String(percent ?? 0)}% (under ${String(MIN_PERCENT)}%), left as it is.`,
       )
 
       return
@@ -159,18 +161,18 @@ async function compactIfIdle($: EngineInterface): Promise<void> {
       const sent = await $.prompt.submit({ text: boardPrompt(path) })
       if (sent.drop !== undefined) {
         phase = undefined
-        report($, `idle for 15 minutes, not compacted: the board update was refused: ${sent.drop}`)
+        report($, `${IDLED}, not compacted: the board update was refused: ${sent.drop}`)
 
         return
       }
-      lastOutcome = 'idle for 15 minutes: asked for the board update, compacting after it.'
+      lastOutcome = `${IDLED}: asked for the board update, compacting after it.`
 
       return
     }
     phase = undefined
     const result = await $.session.compact()
     if (result.skip !== undefined) {
-      report($, `idle for 15 minutes, not compacted: ${result.skip}`)
+      report($, `${IDLED}, not compacted: ${result.skip}`)
 
       return
     }
@@ -178,8 +180,8 @@ async function compactIfIdle($: EngineInterface): Promise<void> {
     report(
       $,
       tokensBefore !== undefined && tokensAfter !== undefined
-        ? `idle for 15 minutes, compacted ${String(tokensBefore)} to ${String(tokensAfter)} tokens.`
-        : 'idle for 15 minutes, compacted.',
+        ? `${IDLED}, compacted ${String(tokensBefore)} to ${String(tokensAfter)} tokens.`
+        : `${IDLED}, compacted.`,
     )
   } catch (error) {
     // $.session.compact rejects while a turn runs; that turn's end arms again.
@@ -331,7 +333,7 @@ export const register: Register = on => {
 
     return {
       text: [
-        `Idle auto-compact is ${isOn ? 'on' : 'off'}: after 15 minutes without a prompt or a turn, when the context is at ${String(MIN_PERCENT)}% or more, it asks for a session board update and then compacts.`,
+        `Idle auto-compact is ${isOn ? 'on' : 'off'}: after ${minutes(IDLE_MS)} without a prompt or a turn, when the context is at ${String(MIN_PERCENT)}% or more, it asks for a session board update and then compacts.`,
         `Context now: ${percent === undefined ? 'not measured yet' : `${String(percent)}%`}. Timer: ${pending === undefined ? 'not running' : 'running'}.`,
         `Subagents: ${workerProblem !== undefined ? `left as they are (capped type: ${workerProblem})` : isOn ? `general-purpose ones run as ${WORKER} and compact themselves at ${String(WORKER_WINDOW)} tokens` : 'left as they are'}.`,
         `Last: ${lastOutcome}`,

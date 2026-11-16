@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 (2026-11-16)
+
+- `idle-compact` waits 45 idle minutes, not 15, before the board update and compaction. Every message takes its duration from one constant.
+- Inbox capture distils each message with `haiku` instead of `sonnet`: cheaper for a one-line rewrite.
+
 ## 0.1.0 (2026-11-03)
 
 First public release.
